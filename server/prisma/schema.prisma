@@ -7,10 +7,10 @@ model User {
 
 model Habit {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
-  author       User         @relation(fields: [authorId], references: [id])
-  authorId     String       @db.ObjectId
+  author       User?         @relation(fields: [authorId], references: [id])
+  authorId     String?       @db.ObjectId
   name         String
-  increment    Int?
+  occurence    Int?
   habitEntries HabitEntry[]
   createdAt    DateTime     @default(now())
 }

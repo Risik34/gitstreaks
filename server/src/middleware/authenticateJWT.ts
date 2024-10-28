@@ -1,4 +1,4 @@
-import { Hono, Context } from 'hono';
+import { createMiddleware } from 'hono/factory';
 import jwt from 'jsonwebtoken';
 
 interface User {
@@ -6,8 +6,8 @@ interface User {
   email: string;
 }
 
-export const authenticateJWT = (c: Context, next: () => void) => {
-  const token = c.req.header('Authorization')?.split(' ')[1];
+export const authenticateJWT = createMiddleware(async (c, next: () => void) => {
+  const token = c.req.header('Authorization');
 
   if (!token) {
     return c.text('Forbidden', 403);
@@ -18,6 +18,6 @@ export const authenticateJWT = (c: Context, next: () => void) => {
       return c.text('Forbidden', 403);
     }
     c.set('user', user);
-    next();
   });
-};
+  await next();
+});

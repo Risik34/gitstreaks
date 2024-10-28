@@ -1,13 +1,10 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../utils/prisma.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { userSchema } from '../schema';
-
+import { userSchema } from '../schema.js';
 const user = new Hono();
-
-const prisma = new PrismaClient();
 
 const secret = process.env.SECRET;
 
