@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { number, z } from 'zod';
 
 export const userSchema = z.object({
   email: z.string().email(),
@@ -7,7 +7,12 @@ export const userSchema = z.object({
 
 export const habitSchema = z.object({
   name: z.string(),
-  occurrence: z.number(),
+  occurrence: z.number().optional(),
+});
+
+export const habitEntrySchema = z.object({
+  habitId: z.string(),
+  occurence: z.number(),
 });
 
 export type User = z.infer<typeof userSchema>;
