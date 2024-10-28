@@ -1,4 +1,4 @@
-const customlogger = (message: string, ...rest: string[]) => {
+const customlogger = (message: string | object, ...rest: string[]) => {
   if (process.env.ENVIRONMENT == 'DEVELOPMENT') {
     console.log(message, ...rest);
   }
