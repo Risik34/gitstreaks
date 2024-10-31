@@ -4,6 +4,8 @@ import prisma from '../utils/prisma.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { userSchema } from '../schema.js';
+import { generateRefreshToken } from '../utils/genRefreshToken.js';
+import { setCookie } from 'hono/cookie';
 const user = new Hono();
 
 const secret = process.env.SECRET;
@@ -32,6 +34,25 @@ user.post('/signup', zValidator('json', userSchema), async c => {
     expiresIn: '1h',
   });
 
+  // Refresh Token implimentatioj
+  const refreshToken = generateRefreshToken();
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 7);
+
+  const refreshTokenEntry = await prisma.refreshToken.create({
+    data: {
+      userId: newUser.id,
+      token: refreshToken,
+      expiresAt,
+    },
+  });
+
+  setCookie(c, 'refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    path: '/',
+  });
+
   return c.json({
     message: 'User signup successful',
     data: { email: newUser.email, id: newUser.id },
@@ -58,6 +79,24 @@ user.post('login', async c => {
   if (!passwordMatch) {
     return c.json({ message: 'Incorrect email password combination' }, 401);
   }
+
+  const refreshToken = generateRefreshToken();
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 7);
+
+  const refreshTokenEntry = await prisma.refreshToken.create({
+    data: {
+      userId: existingUser.id,
+      token: refreshToken,
+      expiresAt,
+    },
+  });
+
+  setCookie(c, 'refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    path: '/',
+  });
 
   const token = jwt.sign(
     { id: existingUser.id, email: existingUser.email },

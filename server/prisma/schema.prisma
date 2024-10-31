@@ -1,25 +1,36 @@
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  email    String  @unique
-  password String
-  habits   Habit[]
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  email         String         @unique
+  password      String
+  habits        Habit[]
+  refreshTokens RefreshToken[]
 }
 
 model Habit {
   id           String       @id @default(auto()) @map("_id") @db.ObjectId
   author       User?        @relation(fields: [authorId], references: [id])
   authorId     String?      @db.ObjectId
-  name         String @unique
+  name         String       @unique
   occurence    Int?
   habitEntries HabitEntry[]
   createdAt    DateTime     @default(now())
 }
 
 model HabitEntry {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  habit   Habit  @relation(fields: [habitId], references: [id])
-  habitId String? @db.ObjectId
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  habit     Habit?  @relation(fields: [habitId], references: [id])
+  habitId   String? @db.ObjectId
   occurence Int?
+}
+
+model RefreshToken {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  token     String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String   @db.ObjectId
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  isValid   Boolean  @default(true)
 }
 
 generator client {
