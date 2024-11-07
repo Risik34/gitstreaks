@@ -23,7 +23,7 @@ habit.post('/', authenticateJWT, zValidator('json', habitSchema), async c => {
     data: data,
   });
 
-  const updatedUser = prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: { id: user.id },
     data: {
       habits: {
@@ -42,10 +42,15 @@ habit.post('/', authenticateJWT, zValidator('json', habitSchema), async c => {
 habit.get('/', authenticateJWT, async c => {
   const { id } = c.get('user') as User;
 
-  const habits = await prisma.habit.findMany({
-    where: { authorId: id },
+  // const habits = await prisma.habit.findMany({
+  //   where: { authorId: id },
+  // });
+  //
+  const existingUser = await prisma.user.findUnique({
+    where: { id },
+    include: { habits: true },
   });
-
+  const habits = existingUser?.habits;
   if (!habits) {
     return c.json({ message: 'No habits associated with user' });
   }

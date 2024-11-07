@@ -10,7 +10,7 @@ interface User {
 }
 
 export const authenticateJWT = createMiddleware(async (c, next) => {
-  const token = c.req.header('Authorization');
+  const token = c.req.header('Authorization')?.split(' ')[1];
 
   if (!token) {
     return c.text('Forbidden', 403);

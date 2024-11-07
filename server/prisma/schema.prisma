@@ -11,7 +11,7 @@ model Habit {
   author       User?        @relation(fields: [authorId], references: [id])
   authorId     String?      @db.ObjectId
   name         String       @unique
-  occurence    Int?
+  occurence    Int          @default(1)
   habitEntries HabitEntry[]
   createdAt    DateTime     @default(now())
 }

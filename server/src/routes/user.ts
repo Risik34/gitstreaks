@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { userSchema } from '../schema.js';
 import { generateRefreshToken } from '../utils/genRefreshToken.js';
-import { setCookie } from 'hono/cookie';
+import { setCookie, getCookie } from 'hono/cookie';
 const user = new Hono();
 
 const secret = process.env.SECRET;
@@ -35,27 +35,29 @@ user.post('/signup', zValidator('json', userSchema), async c => {
   });
 
   // Refresh Token implimentatioj
-  const refreshToken = generateRefreshToken();
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 7);
+  // const refreshToken = generateRefreshToken();
+  // const expiresAt = new Date();
+  // expiresAt.setDate(expiresAt.getDate() + 7);
+  //
+  // const refreshTokenEntry = await prisma.refreshToken.create({
+  //   data: {
+  //     userId: newUser.id,
+  //     token: refreshToken,
+  //     expiresAt,
+  //   },
+  // });
+  //
+  // setCookie(c, 'refreshToken', refreshToken, {
+  //   httpOnly: true,
+  //   secure: true,
+  //   path: '/',
+  // });
 
-  const refreshTokenEntry = await prisma.refreshToken.create({
-    data: {
-      userId: newUser.id,
-      token: refreshToken,
-      expiresAt,
-    },
-  });
-
-  setCookie(c, 'refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: true,
-    path: '/',
-  });
+  setCookie(c, 'jwtToken', token);
 
   return c.json({
     message: 'User signup successful',
-    data: { email: newUser.email, id: newUser.id },
+    email: newUser.email,
     token,
   });
 });
