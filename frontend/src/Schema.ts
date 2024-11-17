@@ -13,7 +13,7 @@ export const loginSchema = z.object({
 
 export const habitSchema = z.object({
   name: z.string(),
-  occurence: z.number().default(1),
+  occurrence: z.string().min(1).transform(val=>Number(val))
 });
 
 export type SignUpSchemaType = z.infer<typeof signUpSchema>;

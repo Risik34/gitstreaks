@@ -6,9 +6,11 @@ import jwt from 'jsonwebtoken';
 import { userSchema } from '../schema.js';
 import { generateRefreshToken } from '../utils/genRefreshToken.js';
 import { setCookie, getCookie } from 'hono/cookie';
+import dotenv from 'dotenv';
 const user = new Hono();
 
-const secret = process.env.SECRET;
+dotenv.config()
+const secret = process.env.SECRET
 
 user.post('/signup', zValidator('json', userSchema), async c => {
   const data = c.req.valid('json');

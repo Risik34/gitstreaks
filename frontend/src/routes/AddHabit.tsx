@@ -25,12 +25,13 @@ const AddHabitForm = () => {
 
   const form = useForm<HabitSchemaType>({
     resolver: zodResolver(habitSchema),
-    defaultValues: {
-      occurence: 1,
-    },
+    defaultValues:{
+      occurence: "1" 
+    }
   });
 
   const onSubmit = async (values: HabitSchemaType) => {
+    console.log(values)
     const res = await postHabit(values);
   };
 
@@ -55,7 +56,7 @@ const AddHabitForm = () => {
         />
         <FormField
           control={form.control}
-          name="occurence"
+          name="occurrence"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Multiple occurence</FormLabel>
@@ -69,7 +70,7 @@ const AddHabitForm = () => {
             </FormItem>
           )}
         />
-        <DialogClose>
+        <DialogClose className='w-full'>
           <Button type="submit" className="w-full">
             Save
           </Button>

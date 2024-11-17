@@ -4,6 +4,15 @@ export const api = axios.create({
   baseURL: 'http://localhost:3000/api',
 });
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.status === 401) {
+      window.location.href = '/login';
+    }
+    return error;
+  },
+);
 // api.interceptors.response.use(
 //   (response) => response,
 //   async (error) => {

@@ -1,7 +1,12 @@
 import Navbar from '@/components/Navbar';
-import { Outlet } from 'react-router-dom';
+import { isAuth } from '@/lib/auth';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const Root = () => {
+  const isAuthenticated = isAuth();
+  if (!isAuthenticated) {
+return window.location.href='/login'
+  }
   return (
     <>
       <div className="dark bg-background  text-foreground h-screen ">

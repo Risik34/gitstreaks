@@ -7,7 +7,7 @@ export const userSchema = z.object({
 
 export const habitSchema = z.object({
   name: z.string(),
-  occurrence: z.number().optional(),
+  occurrence: z.number().default(1)
 });
 
 export const habitEntrySchema = z.object({
