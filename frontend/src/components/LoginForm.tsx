@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginSchemaType } from '@/Schema';
+import { useNavigate } from '@tanstack/react-router';
 import { api } from '@/api/api';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,11 +16,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginUser } from '@/api/auth';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
-  const navigate = useNavigate();
+  const navigate=useNavigate({from:'/login'})
+  // const navigate = useNavigate({ from: '/(auth)/_auth.login' });
   const [formMessage, setFormMessage] = useState('');
 
   const form = useForm<LoginSchemaType>({
@@ -38,7 +39,8 @@ const LoginForm = () => {
     api.defaults.headers['Authorization'] = `Bearer ${jwtToken}`;
     localStorage.setItem('jwtToken', jwtToken);
     setFormMessage('');
-    navigate('/');
+    navigate({to:'/'})
+    
   };
 
   return (

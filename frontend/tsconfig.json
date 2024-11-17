@@ -20,7 +20,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "src/routes/(app)/_app./.tsx"],
   "references": [
     {
       "path": "./tsconfig.node.json"

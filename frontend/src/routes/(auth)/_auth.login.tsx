@@ -1,8 +1,11 @@
-import LoginForm from '@/components/LoginForm';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import React from 'react';
+import LoginForm from '@/components/LoginForm'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { createFileRoute } from '@tanstack/react-router'
 
-const Login = () => {
+export const Route = createFileRoute('/(auth)/_auth/login')({
+  component: Login,
+})
+function Login() {
   return (
     <div className="dark bg-background text-foreground h-screen py-20 px-14">
       <Card>
@@ -16,7 +19,5 @@ const Login = () => {
         </CardContent>
       </Card>
     </div>
-  );
-};
-
-export default Login;
+  )
+}

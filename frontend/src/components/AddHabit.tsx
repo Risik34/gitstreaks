@@ -15,12 +15,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { loginUser } from '@/api/auth';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { postHabit } from '@/api/habit';
 import { DialogClose } from '@/components/ui/dialog';
 
 const AddHabitForm = () => {
-  const navigate = useNavigate();
   const [formMessage, setFormMessage] = useState('');
 
   const form = useForm<HabitSchemaType>({

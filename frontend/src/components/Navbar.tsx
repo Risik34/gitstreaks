@@ -1,13 +1,13 @@
 import { Home, LucideIcon, Plus, UserIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 import { twMerge } from 'tailwind-merge';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
-import AddHabitForm from '@/routes/AddHabit';
+import AddHabitForm from '@/components/AddHabit';
 
 const Navbar = () => {
   return (
     <div className="flex flex-row py-3 gap-8 w-full fixed bottom-0 justify-center ">
-      <Link to="/home">
+      <Link to="/">
         <IconBlock Icon={Home} />
       </Link>
 

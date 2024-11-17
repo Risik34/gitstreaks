@@ -16,10 +16,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { signUpUser } from '@/api/auth';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 
 const SignupForm = () => {
-  const navigate = useNavigate();
+  const navigate=useNavigate({from:'/signup'})
+  // const navigate = useNavigate({ from: '/(auth)/_auth.signup' });
   const [formMessage, setFormMessage] = useState('');
 
   const form = useForm<SignUpSchemaType>({
@@ -39,7 +40,7 @@ const SignupForm = () => {
     api.defaults.headers['Authorization'] = `Bearer ${jwtToken}`;
     localStorage.setItem('jwtToken', jwtToken);
     setFormMessage('');
-    navigate('/');
+    navigate({ to: '/' });
   };
 
   return (
